@@ -6,13 +6,11 @@ import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify'
 import { useEdgeStore } from '../../../lib/edgestore';
 import Link from 'next/link';
-import Page from '../categories/Addcategories/Page';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import 'react-toastify/dist/ReactToastify.css';
 import { FiChevronRight, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
-import Login_Modal from '../loginmodal/page';
 
 
 const CoursesPage = () => {
@@ -48,12 +46,12 @@ const CoursesPage = () => {
     const fetchData = async () => {
       try {
         const response = await axios.post(`/api/jwtverify`, {withCredentials: true});
-   //// console.log(response.data.sta)
         if(response.data.sta==1){
               setlogin(true);
               setuser(response.data.user);
+            console.log(user)
         }
-   ///    console.log(login)
+     //  console.log(login)
   
     } catch (error) {
       console.log(error);
@@ -62,70 +60,29 @@ const CoursesPage = () => {
     }
     fetchData();
   },[]);
-
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
   
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-    const handle = () => {
-        setAnchorElCategories(null);
-        setIsModalOpen(true);
-    };
-    const showToast = (message) => {
-        toast.success(message, {
-            position: "top-right",
-        });
-        setIsModalOpen(false);
-    };
-
-
-
-
   useEffect(() => {
-    const fetchCategory = async () => {
+    const fetchData = async () => {
       try {
-        let response = await axios.get('/api/addcategory');
-        setCategory(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching courses:', error);
-      }
-    };
-    fetchCategory();
-  }, []);
-  const check = async() => {
-    try{
-      if(login==false){
-      
-        setloginmodal(true);
-        //console.log(loginmodal,"kl")
-      }else{
-        router.push('/components/cart')
-      }
-    }catch(err){
-      console.log(err)
+        const response = await axios.post(`/api/getpro`,{user}, {withCredentials: true});
+              setCategory(response.data)
+            ////  console.log(response.dat)
+              setLoading(false)
+     //  console.log(login)
+  
+    } catch (error) {
+      console.log(error);
     }
-    
-    
-  };
+
+    }
+   if(user) fetchData();
+  },[user]);
 
   const handleDeleteCourse = async (categ) => {
     try {
-        //console.log("Deleting Image from Edge Store:", categ.pictureurl);
-
-        await edgestore.myProtectedFiles.delete({
-            url: categ.pictureurl, // Use dynamic URL, not hardcoded one
-        });
-
-       /// console.log("Image deleted from Edge Store");
-
-        // Delete category from the database after image deletion
-        const response = await axios.post(`/api/deletecategory`, { id: categ._id });
+       
+        const response = await axios.post(`/api/deletefromcart`, { id: categ._id, userid:user._id });
         setCategory(category.filter((elem)=>elem._id!==categ._id))
-
         toast.success(response.data);
     } catch (error) {
         console.log("Error in Deleting Category");
@@ -151,9 +108,6 @@ const CoursesPage = () => {
           <Link href="/" className="hover:bg-white hover:text-blue-600 px-3 py-2 rounded-md">
             Home
           </Link>
-          <button onClick={check} className="block py-3 px-6 flex items-center">
-            <FiShoppingCart className="mr-2" /> Cart
-          </button>
           <Link href="/components/categories" className="hover:bg-white hover:text-blue-600 px-3 py-2 rounded-md">
             Categories
           </Link>
@@ -165,15 +119,6 @@ const CoursesPage = () => {
           ) : (
             <button onClick={logout} className="px-3 py-2 hover:bg-gray-700 flex items-center rounded-md">
               <CgProfile className="mr-2" /> Logout
-            </button>
-          )}
-
-          {user?.admin && (
-            <button
-              onClick={handleMenuOpen}
-              className="px-3 py-2 bg-gray-800 rounded-md text-white hover:bg-gray-600 transition"
-            >
-              Add Categories
             </button>
           )}
         </div>
@@ -189,18 +134,6 @@ const CoursesPage = () => {
               Categories
             </Link>
            
-            {user?.admin && (
-              <button
-                onClick={handleMenuOpen}
-                className="w-full px-4 py-2 text-left rounded-md hover:bg-white hover:text-blue-600 transition"
-              >
-            Add Categories
-              </button>
-            )}
-             <button onClick={check} className="block py-3 px-4 flex items-center">
-            <FiShoppingCart className="mr-2" /> Cart
-          </button>
-               {(loginmodal==true) && <Login_Modal loginModal={loginmodal} setLoginModal={setloginmodal} />}
             {login === false ? (
               <Link href="/components/sign-in" className="block px-4 py-2 hover:bg-gray-700 flex items-center">
                 <CgProfile className="mr-2" /> Profile
@@ -213,30 +146,15 @@ const CoursesPage = () => {
           </div>
         )}
 
-        {/* Menu Dropdown (Add Categories) */}
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-          sx={{ zIndex: 10000 }} // Ensure it stays above other elements
-        >
-          <MenuItem onClick={() => setIsModalOpen(true)}>Add Categories</MenuItem>
-        </Menu>
+       
       </nav>
 
-            
-    
-               
-            
-            {isModalOpen && (
-                <Page isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} gh={showToast} />
-            )}
     </>
     <ToastContainer />
     <div className="p-8 z-0 min-h-screen" style={{ backgroundColor: '#242527' }}>
-      <h1 className="text-5xl font-bold text-center mb-8 text-white-800">Categories</h1>
+      <h1 className="text-5xl font-bold text-center mb-8 text-white-800">Cart</h1>
       {category.length === 0 ? (
-        <h1 className='text-3xl font-bold text-center mb-9 text-white-800'>No Categories Available :)</h1>
+        <h1 className='text-3xl font-bold text-center mb-9 text-white-800'>No Products Added :)</h1>
       ) : (
         <div className="grid gap-10 z-0 sm:grid-cols-2 lg:grid-cols-4">
           {category.map((cate) => (
@@ -265,10 +183,10 @@ const CoursesPage = () => {
                 </p>
               </div>
               <button
-                onClick={() => router.push(`/components/Addproducts/${cate._id}`)}
+                onClick={() => router.push(`/components/product/${cate._id}`)}
                 className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150"
               >
-                Visit Category
+                Visit Product
               </button>
             </div>
           ))}

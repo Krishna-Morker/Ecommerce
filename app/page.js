@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Login_Modal from "./components/loginmodal/page";
 
 import { toNamespacedPath } from "path";
 
@@ -30,15 +31,33 @@ const products = [
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [login,setlogin]=useState(false);
+  const [user,setuser]=useState();
   const router = useRouter();
+  const [loginmodal,setloginmodal]=useState(false);
 
   const logout = async() => {
     try{
       const res=await axios.get('/api/logout');
       if(res.data.status==true){
         setlogin(false);
+  
         toast.success("Logout successful");
         router.push('/');
+      }
+    }catch(err){
+      console.log(err)
+    }
+    
+    
+  };
+  const check = async() => {
+    try{
+      if(login==false){
+      
+        setloginmodal(true);
+        //console.log(loginmodal,"kl")
+      }else{
+        router.push('/components/cart')
       }
     }catch(err){
       console.log(err)
@@ -51,9 +70,9 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const response = await axios.post(`/api/jwtverify`, {withCredentials: true});
-    console.log(response.data.sta)
         if(response.data.sta==1){
               setlogin(true);
+              setuser(response.data.user);
         }
         console.log(login)
   
@@ -66,6 +85,7 @@ export default function Home() {
     
     fetchData();
   },[]);
+  
 
   return (
     <>
@@ -74,15 +94,18 @@ export default function Home() {
         <h1 className="text-xl md:text-2xl font-extrabold">Cheaper</h1>
         <div className="hidden md:flex items-center space-x-6">
           <Link href="/components/categories" className="hover:text-blue-400 transition">Categories</Link>
-          <Link href="/cart" className="hover:text-blue-400 transition flex items-center">
+          {/* <Link href="/cart" className="hover:text-blue-400 transition flex items-center">
             <FiShoppingCart className="mr-2" /> Cart
-          </Link>
+          </Link> */}
+          <button onClick={check} className="block py-3 px-6 flex items-center">
+            <CgProfile className="mr-2" /> Cart
+          </button>
           {(login==false) ?
          ( <Link href="/components/sign-in" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
             <CgProfile className="mr-2" /> Profile
           </Link>) : 
          ( <button onClick={logout} className="block py-3 px-6 hover:bg-gray-700 flex items-center">
-            <CgProfile className="mr-2" /> Logout
+            <FiShoppingCart className="mr-2" /> Logout
           </button>)
           }       
         </div>
@@ -90,13 +113,15 @@ export default function Home() {
           {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
         </button>
       </nav>
+
+      
        {/* Mobile Menu */}
        {menuOpen && (
         <div className="md:hidden bg-[#171a1f] text-white absolute top-16 left-0 right-0 shadow-lg">
           <Link href="/components/categories" className="block py-3 px-6 hover:bg-gray-700">Categories</Link>
-          <Link href="/cart" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
+          <button onClick={check} className="block py-3 px-6 flex items-center">
             <FiShoppingCart className="mr-2" /> Cart
-          </Link>
+          </button>
           {(login==false) ?
          ( <Link href="/components/sign-in" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
             <CgProfile className="mr-2" /> Profile
@@ -128,7 +153,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-
+      {(loginmodal==true) && <Login_Modal loginModal={loginmodal} setLoginModal={setloginmodal} />}
       {/* Best-Selling Products */}
       <section className="py-12 px-6 text-center bg-blue-400">
         <h2 className="text-3xl text-black font-bold mb-6">Best-Selling Products</h2>

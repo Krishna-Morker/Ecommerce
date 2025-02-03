@@ -34,7 +34,7 @@ export default function Page({ isOpen, onClose, gh }) {
           description,
           fileURL,
         });
-        console.log(response);
+      ////  console.log(response);
         const mes = response.data;
         gh(mes);
         setLoad(false);

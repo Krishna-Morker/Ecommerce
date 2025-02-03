@@ -3,18 +3,20 @@ import { useRouter } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
 import { Menu, MenuItem, Button } from '@mui/material';
 import Link from 'next/link';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useEdgeStore } from '../../../../lib/edgestore';
 import { FiChevronRight, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import axios from "axios";
 import Page from '../Page';
 import Loader from '../../Loader';
+import Login_Modal from '../../loginmodal/page';
 
 const AssignmentsPage = ({ params }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [product, setProduct] = useState([]);
   const [progress, setProgress] = useState({});
+  const [cart, setCart] = useState([]);
   const { edgestore } = useEdgeStore();
   const router = useRouter();
   const [loading, setLoading] = useState({});
@@ -24,8 +26,10 @@ const AssignmentsPage = ({ params }) => {
   const [stid, setstid] = useState(null);
   const { id } = use(params);
   const [login,setlogin]=useState(false);
+  const [gh,setgh]=useState();
   const [user,setuser]=useState(false);
   const [expandedDescription, setExpandedDescription] = useState(null);
+  const [loginmodal,setloginmodal]=useState(false);
 
   const handleToggleDescription = (productId) => {
     if (expandedDescription === productId) {
@@ -60,12 +64,13 @@ const AssignmentsPage = ({ params }) => {
     const fetchData = async () => {
       try {
         const response = await axios.post(`/api/jwtverify`, {withCredentials: true});
-    console.log(response.data.sta)
+   /// console.log(response.data.sta)
         if(response.data.sta==1){
               setlogin(true);
               setuser(response.data.user);
+              setCart(response.data.user.cart);
         }
-        console.log(login)
+      ///  console.log(login)
   
     } catch (error) {
       console.log(error);
@@ -167,6 +172,39 @@ const AssignmentsPage = ({ params }) => {
       setFile(null);
     }
   };
+  const check = async(e) => {
+    try{
+      if(login==false){
+      
+        setloginmodal(true);
+        //console.log(loginmodal,"kl")
+      }else{
+        await add(e);
+      }
+    }catch(err){
+      console.log(err)
+    }
+  };
+  const check1 = async(e) => {
+    try{
+      if(login==false){
+      
+        setloginmodal(true);
+        //console.log(loginmodal,"kl")
+      }else{
+       router.push('/components/cart')
+      }
+    }catch(err){
+      console.log(err)
+    }
+  };
+
+  const add=async(id)=>{
+      const response= await axios.post('/api/addtocart',{id:id,userid:user._id});
+      setCart([...cart, id])
+    ///  console.log(response.data)
+      toast.success(response.data);
+  }
 
   const handleDeleteProduct = async (categ) => {
     try {
@@ -180,7 +218,7 @@ const AssignmentsPage = ({ params }) => {
 
         // Delete category from the database after image deletion
         const response = await axios.post(`/api/deleteproduct`, { id: categ._id });
-
+        setProduct(product.filter((elem)=>elem._id!==categ._id))
         toast.success(response.data);
     } catch (error) {
         console.log("Error in Deleting Category");
@@ -210,6 +248,9 @@ const AssignmentsPage = ({ params }) => {
           <Link href="/components/categories" className="hover:bg-white hover:text-blue-600 px-3 py-2 rounded-md">
             Categories
           </Link>
+          <button onClick={check1} className="block py-3 px-4 flex items-center">
+            <FiShoppingCart className="mr-2" /> Cart
+          </button>
 
           {login === false ? (
             <Link href="/components/sign-in" className="px-3 py-2 hover:bg-gray-700 flex items-center rounded-md">
@@ -240,6 +281,9 @@ const AssignmentsPage = ({ params }) => {
             <Link href="/components/categories" className="block px-4 py-2 rounded-md hover:bg-white hover:text-blue-600 transition">
               Categories
             </Link>
+            <button onClick={check1} className="block py-3 px-4 flex items-center">
+            <FiShoppingCart className="mr-2" /> Cart
+          </button>
 
             {user?.admin && (
               <button
@@ -277,6 +321,7 @@ const AssignmentsPage = ({ params }) => {
     {isModalOpen && (
         <Page isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} gh={showToast} categoryid={categoryid} />
     )}
+       {(loginmodal==true) && <Login_Modal loginModal={loginmodal} setLoginModal={setloginmodal} />}
     </>
     <div className="p-8 min-h-screen" style={{ backgroundColor: '#242527' }}>
       <h1 className="text-5xl font-bold text-center mb-8 text-white-800">Product</h1>
@@ -319,18 +364,33 @@ const AssignmentsPage = ({ params }) => {
     {expandedDescription === pro._id ? 'Read Less' : 'Read More'}
   </button>
 </div>
-
+            <div className='flex gap-2'>
               <button
                 onClick={() => router.push(`/components/product/${pro._id}`)}
                 className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-150"
               >
                 View Product
               </button>
+              <button
+                onClick={() => check(pro._id)}
+                className={`w-full py-2 rounded-md transition duration-150 ${
+                      cart?.includes(pro._id)
+                    ? "bg-gray-400 text-white cursor-not-allowed" // Disabled style if already added
+                    : "bg-blue-500 text-white hover:bg-blue-600"
+                }`}
+                disabled={cart.includes(pro._id)} // Disable if product is in cart
+              >
+                {cart?.includes(pro._id) ? "Already Added" : "Add to Cart"}
+              </button>
+
+              </div>
             </div>
+            
           ))}
         </div>
       )}
     </div>
+    <ToastContainer/>
     </>
   );
 };

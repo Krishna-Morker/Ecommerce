@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
-import { deleteProduct } from "../../../lib/actions/product";
+import { getproduct } from "../../../lib/actions/cart";
 
 export async function POST(req,res){
     try{
        const body=await req.json();
-    ///  console.log("hii");
-       const response=await deleteProduct(body);
+       const response=await getproduct(body);
       /// console.log(response,":kll")
        return NextResponse.json(response);
     }

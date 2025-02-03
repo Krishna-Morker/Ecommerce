@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { toast } from 'react-toastify';
 import axios from "axios";
 import Loader from '../../Loader';
+import Login_Modal from '../../loginmodal/page';
 
 const AssignmentsPage = ({ params }) => {
 
@@ -20,6 +21,43 @@ const AssignmentsPage = ({ params }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [num,setnum]=useState(false);
   const [login,setlogin]=useState(false);
+  const [loginmodal,setloginmodal]=useState(false);
+  const [user,setuser]=useState(false);
+
+  const check = async(e) => {
+    try{
+      if(login==false){
+      
+        setloginmodal(true);
+        //console.log(loginmodal,"kl")
+      }else{
+     await add(e)
+      }
+    }catch(err){
+      console.log(err)
+    }
+  };
+  const check1 = async(e) => {
+    try{
+      if(login==false){
+      
+        setloginmodal(true);
+        //console.log(loginmodal,"kl")
+      }else{
+        router.push('/components/cart')
+      }
+    }catch(err){
+      console.log(err)
+    }
+  };
+
+  const add=async(id)=>{
+    const response= await axios.post('/api/addtocart',{id:id,userid:user._id});
+  ///  console.log(response.data)
+    toast.success(response.data);
+}
+
+
 
   const logout = async() => {
     try{
@@ -40,11 +78,12 @@ const AssignmentsPage = ({ params }) => {
     const fetchData = async () => {
       try {
         const response = await axios.post(`/api/jwtverify`, {withCredentials: true});
-    console.log(response.data.sta)
+    
         if(response.data.sta==1){
               setlogin(true);
+              setuser(response.data.user)
         }
-        console.log(login)
+       /// console.log(login)
   
     } catch (error) {
       console.log(error);
@@ -102,6 +141,9 @@ const AssignmentsPage = ({ params }) => {
             <Link href="/components/categories" className="block px-4 py-2 rounded-md hover:bg-white hover:text-blue-600 transition duration-300">
                 Categories
             </Link>
+            <button onClick={check1} className="block py-3 px-6 flex items-center">
+            <FiShoppingCart className="mr-2" /> Cart
+          </button>
             {(login==false) ?
                 ( <Link href="/components/sign-in" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
                     <CgProfile className="mr-2" /> Profile
@@ -121,6 +163,9 @@ const AssignmentsPage = ({ params }) => {
                 <Link href="/components/categories" className="block px-4 py-2 rounded-md hover:bg-white hover:text-blue-600 transition duration-300">
                 Categories
                 </Link>
+                <button onClick={check1} className="block py-3 px-6 flex items-center">
+            <FiShoppingCart className="mr-2" /> Cart
+          </button>
                 {(login==false) ?
                 ( <Link href="/components/sign-in" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
                     <CgProfile className="mr-2" /> Profile
@@ -133,7 +178,7 @@ const AssignmentsPage = ({ params }) => {
             </div>
         )}
     </nav>
-
+    {(loginmodal==true) && <Login_Modal loginModal={loginmodal} setLoginModal={setloginmodal} />}
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.ProductName}</h1>
@@ -154,16 +199,27 @@ const AssignmentsPage = ({ params }) => {
           <p className="mt-4 whitespace-pre-line text-gray-600 text-lg">
             {product.Description}
           </p>
-
+      <div className='flex gap-2'>
       <button 
         onClick={() => setnum(!num)} 
         className="bg-blue-600 mt-6 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-300"
       >
         Contact us for best price
       </button>
-      {num && <p className="mt-4 text-2xl font-semibold text-gray-800">99999999</p>}
- 
+      <button
+                onClick={() => check(id)}
+                className={`bg-blue-600 mt-6 text-white px-6 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition duration-3000 ${
+                  user?.cart?.includes(id)
+                    ? "bg-gray-400 text-white cursor-not-allowed" // Disabled style if already added
+                    : "bg-blue-500 text-white hover:bg-blue-600"
+                }`}
+                disabled={user?.cart?.includes(id)} // Disable if product is in cart
+              >
+                {user?.cart?.includes(id) ? "Already Added" : "Add to Cart"}
+              </button>
+              </div>
         </div>
+        {num &&<p className="mt-4 text-2xl font-semibold text-gray-800">99999999</p>}
       </div>
     </div>
     </>

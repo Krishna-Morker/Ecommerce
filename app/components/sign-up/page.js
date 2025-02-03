@@ -21,7 +21,7 @@ export default function SignIn() {
         const fetchData = async () => {
           try {
             const response = await axios.post(`/api/jwtverify`, {withCredentials: true});
-        console.log(response.data.sta)
+      ///  console.log(response.data.sta)
             if(response.data.sta==1){
                  router.push("/components/categories");
             }
@@ -56,7 +56,7 @@ export default function SignIn() {
             email,
             password,
           },{withCredentials:true});
-          console.log(data);
+       ///   console.log(data);
           if (data.status === false) {
             toast.error(data.msg);
           }
@@ -74,13 +74,11 @@ export default function SignIn() {
       <nav className="w-full py-4 px-6 flex items-center justify-between shadow-lg bg-[#171a1f] text-white">
         <h1 className="text-xl md:text-2xl font-extrabold">Cheaper</h1>
         <div className="hidden md:flex items-center space-x-6">
+        <Link href="/" className="hover:text-blue-400 transition flex items-center">
+            <FiShoppingCart className="mr-2" /> Home
+          </Link>
           <Link href="/components/categories" className="hover:text-blue-400 transition">Categories</Link>
-          <Link href="/cart" className="hover:text-blue-400 transition flex items-center">
-            <FiShoppingCart className="mr-2" /> Cart
-          </Link>
-          <Link href="/cart" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
-            <CgProfile className="mr-2" /> Profile
-          </Link>
+         
         </div>
         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden">
           {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -89,13 +87,10 @@ export default function SignIn() {
        {/* Mobile Menu */}
        {menuOpen && (
         <div className="md:hidden bg-[#171a1f] text-white absolute top-16 left-0 right-0 shadow-lg">
+          <Link href="/" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
+             Home
+          </Link>
           <Link href="/components/categories" className="block py-3 px-6 hover:bg-gray-700">Categories</Link>
-          <Link href="/cart" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
-            <FiShoppingCart className="mr-2" /> Cart
-          </Link>
-          <Link href="/components/sign-in" className="block py-3 px-6 hover:bg-gray-700 flex items-center">
-            <CgProfile className="mr-2" /> Profile
-          </Link>
         </div>
       )}
         <div className="min-h-screen flex items-center justify-center bg-gray-900">

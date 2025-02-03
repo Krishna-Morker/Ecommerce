@@ -1,16 +1,16 @@
 import { NextResponse } from "next/server";
-import { deleteProduct } from "../../../lib/actions/product";
+import { addtocart } from "../../../lib/actions/cart";
 
 export async function POST(req,res){
     try{
        const body=await req.json();
-    ///  console.log("hii");
-       const response=await deleteProduct(body);
-      /// console.log(response,":kll")
+       //console.log(body);
+       const response=await addtocart(body);
+    //   console.log(response,":kll")
        return NextResponse.json(response);
     }
     catch(error){
-        console.log("Error in deleting product",error)
+        console.log("Error in deleting category",error)
         return NextResponse.json("error");
     }
 }
