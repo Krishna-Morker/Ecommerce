@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+'use client'
+import React from "react";
 import { Modal } from "antd";
 import { useRouter } from "next/navigation";
 
