@@ -173,7 +173,7 @@ const CoursesPage = () => {
                 onClick={handleMenuOpen}
                 className="w-full px-4 py-2 text-left rounded-md hover:bg-white hover:text-blue-600 transition"
               >
-                Add Categories
+            Add Categories
               </button>
             )}
 
