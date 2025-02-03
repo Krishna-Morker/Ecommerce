@@ -1,16 +1,16 @@
 "use client";
+import { Menu, MenuItem } from '@mui/material';
+import axios from "axios";
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
-import { Menu, MenuItem, Button } from '@mui/material';
-import Link from 'next/link';
+import { CgProfile } from "react-icons/cg";
+import { FiMenu, FiShoppingCart, FiX } from "react-icons/fi";
 import { toast, ToastContainer } from 'react-toastify';
 import { useEdgeStore } from '../../../../lib/edgestore';
-import { FiChevronRight, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
-import { CgProfile } from "react-icons/cg";
-import axios from "axios";
-import Page from '../Page';
 import Loader from '../../Loader';
-import Login_Modal from '../../loginmodal/page';
+import Page from '../Page';
+import Loginmodall from '../../loginmodal/page';
 
 const AssignmentsPage = ({ params }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -81,7 +81,13 @@ const AssignmentsPage = ({ params }) => {
     
     fetchData();
   },[]);
-
+  const open = async() => {
+    setloginmodal(true);
+     
+   };
+   const close = async(e) => {
+     setloginmodal(false);
+    };
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -321,7 +327,7 @@ const AssignmentsPage = ({ params }) => {
     {isModalOpen && (
         <Page isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} gh={showToast} categoryid={categoryid} />
     )}
-       {(loginmodal==true) && <Login_Modal loginModal={loginmodal} setLoginModal={setloginmodal} />}
+       {(loginmodal==true) && <Loginmodall open={open} close={close} />}
     </>
     <div className="p-8 min-h-screen" style={{ backgroundColor: '#242527' }}>
       <h1 className="text-5xl font-bold text-center mb-8 text-white-800">Product</h1>

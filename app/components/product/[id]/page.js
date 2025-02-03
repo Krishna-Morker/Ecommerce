@@ -1,14 +1,14 @@
 "use client";
+import axios from "axios";
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { use, useEffect, useState } from 'react';
-import { Menu, MenuItem, Button } from '@mui/material';
-import { FiChevronRight, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
-import Link from 'next/link';
+import { FiMenu, FiShoppingCart, FiX } from "react-icons/fi";
 import { toast } from 'react-toastify';
-import axios from "axios";
 import Loader from '../../Loader';
-import Login_Modal from '../../loginmodal/page';
+import Loginmodall from '../../loginmodal/page';
+
 
 const AssignmentsPage = ({ params }) => {
 
@@ -37,6 +37,14 @@ const AssignmentsPage = ({ params }) => {
       console.log(err)
     }
   };
+  
+  const open = async() => {
+    setloginmodal(true);
+     
+   };
+   const close = async(e) => {
+     setloginmodal(false);
+    };
   const check1 = async(e) => {
     try{
       if(login==false){
@@ -178,7 +186,7 @@ const AssignmentsPage = ({ params }) => {
             </div>
         )}
     </nav>
-    {(loginmodal==true) && <Login_Modal loginModal={loginmodal} setLoginModal={setloginmodal} />}
+    {(loginmodal==true) && <Loginmodall open={open} close={close} />}
     <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
       <div className="max-w-4xl w-full bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.ProductName}</h1>

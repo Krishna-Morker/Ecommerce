@@ -1,15 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-import { FiChevronRight, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
-import { CgProfile } from "react-icons/cg";
-import { useRouter } from 'next/navigation';
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import Login_Modal from "./components/loginmodal/page";
-
-import { toNamespacedPath } from "path";
+import Link from "next/link";
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { CgProfile } from "react-icons/cg";
+import { FiMenu, FiShoppingCart, FiX } from "react-icons/fi";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Loginmodall from "./components/loginmodal/page";
 
 const categories = [
   { name: "Birthday", color: "bg-pink-200 text-pink-700" },
@@ -65,6 +63,13 @@ export default function Home() {
     
     
   };
+  const open = async() => {
+   setloginmodal(true);
+    
+  };
+  const close = async(e) => {
+    setloginmodal(false);
+   };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -153,7 +158,7 @@ export default function Home() {
           ))}
         </div>
       </section>
-      {(loginmodal==true) && <Login_Modal loginModal={loginmodal} setLoginModal={setloginmodal} />}
+      {(loginmodal==true) && <Loginmodall open={open} close={close} />}
       {/* Best-Selling Products */}
       <section className="py-12 px-6 text-center bg-blue-400">
         <h2 className="text-3xl text-black font-bold mb-6">Best-Selling Products</h2>

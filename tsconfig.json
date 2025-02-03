@@ -6,7 +6,6 @@
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
     "noEmit": true,
@@ -16,20 +15,24 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "checkJs": false,
     "jsx": "preserve",
     "plugins": [
       {
         "name": "next"
       }
-    ]
+    ],
+    "allowJs": false,
   },
   "include": [
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "app/api/edgestore/[...edgestore]/route.ts"  ],
+    "**/*.tsx",
+    "app/api/edgestore/[...edgestore]/route.ts"
+  ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "app/components" // Remove this from the 'include' section
   ]
 }

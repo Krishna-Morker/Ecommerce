@@ -1,18 +1,18 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Loader from '../Loader';
-import { useRouter } from 'next/navigation';
-import { toast, ToastContainer } from 'react-toastify'
-import { useEdgeStore } from '../../../lib/edgestore';
-import Link from 'next/link';
-import Page from '../categories/Addcategories/Page';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import 'react-toastify/dist/ReactToastify.css';
-import { FiChevronRight, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
+import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { CgProfile } from "react-icons/cg";
-import Login_Modal from '../loginmodal/page';
+import { FiMenu, FiShoppingCart, FiX } from "react-icons/fi";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEdgeStore } from '../../../lib/edgestore';
+import Page from '../categories/Addcategories/Page';
+import Loginmodall from '../loginmodal/page';
+import Loader from '../Loader';
 
 
 const CoursesPage = () => {
@@ -70,6 +70,13 @@ const CoursesPage = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  const open = async() => {
+    setloginmodal(true);
+     
+   };
+   const close = async(e) => {
+     setloginmodal(false);
+    };
     const handle = () => {
         setAnchorElCategories(null);
         setIsModalOpen(true);
@@ -200,7 +207,7 @@ const CoursesPage = () => {
              <button onClick={check} className="block py-3 px-4 flex items-center">
             <FiShoppingCart className="mr-2" /> Cart
           </button>
-               {(loginmodal==true) && <Login_Modal loginModal={loginmodal} setLoginModal={setloginmodal} />}
+               {(loginmodal==true) && <Loginmodall open={open} close={close} />}
             {login === false ? (
               <Link href="/components/sign-in" className="block px-4 py-2 hover:bg-gray-700 flex items-center">
                 <CgProfile className="mr-2" /> Profile

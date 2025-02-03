@@ -1,11 +1,18 @@
 'use client'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "antd";
 import { useRouter } from "next/navigation";
+import { set } from "mongoose";
 
-const Login_Modal = ({ loginModal, setLoginModal }) => {
+const Loginmodall = ({ open, close }) => {
   const router = useRouter();
-
+  const [loginModal,setLoginModal]=useState(true);
+useEffect(() => {
+  if(loginModal==false){
+    setLoginModal(false);
+    close(false);
+  }
+}, [loginModal]);
 
   return (
     <Modal
@@ -35,4 +42,4 @@ const Login_Modal = ({ loginModal, setLoginModal }) => {
   );
 };
 
-export default Login_Modal;
+export default Loginmodall;
