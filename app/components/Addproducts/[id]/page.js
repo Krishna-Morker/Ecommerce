@@ -226,7 +226,7 @@ const AssignmentsPage = ({ params }) => {
               onClick={handleMenuOpen}
               className="px-3 py-2 bg-gray-800 rounded-md text-white hover:bg-gray-600 transition"
             >
-              Add Categories
+              Add Products
             </button>
           )}
         </div>
@@ -246,7 +246,7 @@ const AssignmentsPage = ({ params }) => {
                 onClick={handleMenuOpen}
                 className="w-full px-4 py-2 text-left rounded-md hover:bg-white hover:text-blue-600 transition"
               >
-                Add Categories
+                Add Products
               </button>
             )}
 
@@ -269,7 +269,7 @@ const AssignmentsPage = ({ params }) => {
           onClose={handleMenuClose}
           sx={{ zIndex: 10000 }} // Ensure it stays above other elements
         >
-          <MenuItem onClick={() => setIsModalOpen(true)}>Add Categories</MenuItem>
+          <MenuItem onClick={() => setIsModalOpen(true)}>Add Product</MenuItem>
         </Menu>
       </nav>
     
@@ -303,6 +303,7 @@ const AssignmentsPage = ({ params }) => {
                 />
               </div>
               <h2 className="text-3xl font-extrabold text-center text-white-950 ">{pro.ProductName}</h2>
+              <h2 className="text-3xl font-extrabold text-center text-yellow-200 ">₹{pro.price}</h2><br/>
               <div className="text-center flex-grow">
   <p className="text-1xl font-normal text-white-900 leading-relaxed italic whitespace-normal">
     {expandedDescription === pro._id
