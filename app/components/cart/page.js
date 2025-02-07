@@ -1,16 +1,14 @@
 "use client";
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Loader from '../Loader';
-import { useRouter } from 'next/navigation';
-import { toast, ToastContainer } from 'react-toastify'
-import { useEdgeStore } from '../../../lib/edgestore';
 import Link from 'next/link';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import 'react-toastify/dist/ReactToastify.css';
-import { FiChevronRight, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { CgProfile } from "react-icons/cg";
+import { FiMenu, FiX } from "react-icons/fi";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useEdgeStore } from '../../../lib/edgestore';
+import Loader from '../Loader';
 
 
 const CoursesPage = () => {
@@ -96,7 +94,7 @@ const CoursesPage = () => {
      <>
             <nav className="w-full py-6 z-20 px-6 flex items-center justify-between shadow-lg bg-[#171a1f] text-white">
                 {/* Logo */}
-                <h1 className="text-xl md:text-2xl font-extrabold">Cheaper</h1>
+                <h1 className="text-xl md:text-2xl font-extrabold">Simply crochett</h1>
               
         {/* Mobile Menu Toggle */}
         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white">

@@ -134,7 +134,7 @@ const AssignmentsPage = ({ params }) => {
     <>
     <nav className="w-full py-6 px-6 flex items-center justify-between shadow-lg text-white bg-[#171a1f]">
         {/* Logo */}
-        <h1 className="text-xl md:text-2xl font-extrabold">Cheaper</h1>
+        <h1 className="text-xl md:text-2xl font-extrabold">Simply crochett</h1>
         
         {/* Mobile Menu Toggle */}
         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white">

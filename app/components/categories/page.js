@@ -11,8 +11,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useEdgeStore } from '../../../lib/edgestore';
 import Page from '../categories/Addcategories/Page';
-import Loginmodall from '../loginmodal/page';
 import Loader from '../Loader';
+import Loginmodall from '../loginmodal/page';
 
 
 const CoursesPage = () => {
@@ -146,7 +146,7 @@ const CoursesPage = () => {
      <>
             <nav className="w-full py-6 z-20 px-6 flex items-center justify-between shadow-lg bg-[#171a1f] text-white">
                 {/* Logo */}
-                <h1 className="text-xl md:text-2xl font-extrabold">Cheaper</h1>
+                <h1 className="text-xl md:text-2xl font-extrabold">Simply crochett</h1>
               
         {/* Mobile Menu Toggle */}
         <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-white">

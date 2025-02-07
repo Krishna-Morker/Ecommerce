@@ -1,14 +1,11 @@
 'use client'
-import React from "react";
+import axios from "axios";
 import Link from "next/link";
-import { useState,useEffect } from "react";
-import { FiChevronRight, FiMenu, FiX, FiShoppingCart } from "react-icons/fi";
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { FiMenu, FiShoppingCart, FiX } from "react-icons/fi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CgProfile } from "react-icons/cg";
-import { useRouter } from 'next/navigation';
-import axios from "axios";
-import { totalmem } from "os";
 
 export default function SignIn() {
     const router = useRouter();
@@ -72,7 +69,7 @@ export default function SignIn() {
         <>
             {/* Navbar */}
       <nav className="w-full py-4 px-6 flex items-center justify-between shadow-lg bg-[#171a1f] text-white">
-        <h1 className="text-xl md:text-2xl font-extrabold">Cheaper</h1>
+        <h1 className="text-xl md:text-2xl font-extrabold">Simply crochett</h1>
         <div className="hidden md:flex items-center space-x-6">
         <Link href="/" className="hover:text-blue-400 transition flex items-center">
             <FiShoppingCart className="mr-2" /> Home

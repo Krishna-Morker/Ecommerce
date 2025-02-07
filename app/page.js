@@ -96,7 +96,7 @@ export default function Home() {
     <>
       {/* Navbar */}
       <nav className="w-full py-6 px-6 flex items-center justify-between shadow-lg bg-[#171a1f] text-white">
-        <h1 className="text-xl md:text-2xl font-extrabold">Cheaper</h1>
+        <h1 className="text-xl md:text-2xl font-extrabold">Simply crochett</h1>
         <div className="hidden md:flex items-center space-x-6">
           <Link href="/components/categories" className="hover:text-blue-400 transition">Categories</Link>
           {/* <Link href="/cart" className="hover:text-blue-400 transition flex items-center">
@@ -191,7 +191,7 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-[#171a1f] text-white py-6 text-center">
-        <p>&copy; 2025 Cheaper. All rights reserved.</p>
+        <p>&copy; 2025 Simply crochett. All rights reserved.</p>
       </footer>
     </>
   );
