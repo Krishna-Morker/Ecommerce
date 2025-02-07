@@ -14,10 +14,8 @@ const categories = [
   { name: "Anniversary", color: "bg-red-200 text-red-700" },
   { name: "Wedding", color: "bg-purple-200 text-purple-700" },
   { name: "Plants", color: "bg-green-200 text-green-700" },
-  { name: "Cakes", color: "bg-yellow-200 text-yellow-700" },
   { name: "Flowers", color: "bg-blue-200 text-blue-700" },
-  { name: "Chocolates", color: "bg-purple-200 text-gray-700" },
-  { name: "Combos", color: "bg-orange-200 text-orange-700" }
+  { name: "Chocolates", color: "bg-purple-200 text-gray-700" }
 ];
 
 const products = [
